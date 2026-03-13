@@ -14,5 +14,12 @@ if [ "$(stat -c '%u' appdata)" != "1000" ]; then
     sudo chown -R 1000:1000 appdata
 fi
 
-sudo docker-compose up -d 
-sudo docker-compose logs -f
+# Checks which version of docker compose is available
+DOCKER_CMD="docker-compose"
+which ${DOCKER_CMD} >& /dev/null
+if [ $? != 0 ]; then
+    DOCKER_CMD="docker compose"
+fi
+ 
+sudo ${DOCKER_CMD} up -d
+sudo ${DOCKER_CMD} logs -f
